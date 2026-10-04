@@ -15,14 +15,14 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
 
-    - name: Create Plugin Files
+    - name: Compile C++ Source Files
       shell: cmd
       run: |
-        echo Building Plugin DLL...
+        cl.exe /c /EHsc plugin.cpp CustomShelfPane.cpp
+        link.exe /DLL /OUT:CustomShelfPlugin.dll plugin.obj CustomShelfPane.obj
 
     - name: Upload DLL Artifact
       uses: actions/upload-artifact@v3
       with:
         name: CustomShelfPlugin-DLL
-        path: |
-          *.dll
+        path: CustomShelfPlugin.dll
